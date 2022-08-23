@@ -3,26 +3,33 @@ from support_files import decorators
 
 errordecorator = decorators.catchErrors((KeyError, NameError), default_value='default')
 
+
+def setInputFilePath(input_path):
+    input_data_path = input_path
+    return
+
 class Importer:
 
-    def __init__(self):
-        self.input_data_path = ''
+    def __init__(self, input_data_path):
+        self.input_data_path = input_data_path
         self.output_data_path = ''
         self.dataframestats = ''
+        self.raw_data = None
+        self.raw_data_df = None
+        return
 
     @errordecorator
-    def setInputFilePath(self, input_path):
-        self.input_data_path = input_path
-        return
+
     @errordecorator
     def readCsv(self):
-        raw_data = pd.read_csv(self.input_data_path)
-        return raw_data
+        self.raw_data = pd.read_csv(self.input_data_path)
+        return self.raw_data
     @errordecorator
-    def raw2dataframe(self, raw_data):
-        raw_data_df = pd.DataFrame(raw_data)
-        return raw_data_df
+    def raw2dataframe(self):
+        self.raw_data_df = pd.DataFrame(self.raw_data)
+        return self.raw_data_df
     @errordecorator
-    def dataframeStatistics(self, raw_data_df):
-        self.dataframestats = raw_data_df.describe()
-        return
+    def dataframeStatistics(self):
+        self.dataframestats = self.raw_data_df.describe()
+        return self.dataframestats
+
