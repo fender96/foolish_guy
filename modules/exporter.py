@@ -12,6 +12,7 @@ class Exporter:
         self.output_data_path = output_data_path
         self.maximum_output_file_size = None
         self.output_data_format = None
+        self.output_data_name = None
         return
 
     @errordecorator
@@ -35,13 +36,22 @@ class Exporter:
         self.output_data_format = format
         return
 
-    @errordecorator
-    def writeOutputDataFormat(self):
-        self.output_data_path = self.output_data_path + self.output_data_format
-        return
+    # @errordecorator
+    # def writeOutputDataFormat(self):
+    #     self.output_data_path = self.output_data_path + self.output_data_format
+    #     return
 
     @errordecorator
     def exportFile(self, df):
-        df.to_csv(self.output_data_path, index=False)
+        if self.output_data_name:
+            df.to_csv(self.output_data_name, index=False)
+        else:
+            df.to_csv(self.output_data_path, index=False)
         return
+
+    @errordecorator
+    def appendOutputFileName(self, NametoAppend):
+        self.output_data_name = self.output_data_path[:-4] + str(NametoAppend) + self.output_data_format
+        return
+
 

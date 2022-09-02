@@ -19,8 +19,8 @@ class Importer:
         return self.raw_data
 
     @errordecorator
-    def raw2dataframe(self):
-        self.raw_data_df = pd.DataFrame(self.raw_data)
+    def raw2dataframe(self, df):
+        self.raw_data_df = pd.DataFrame(df)
         return self.raw_data_df
 
     @errordecorator
